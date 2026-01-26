@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # sign up and log in api
 
 # so we install package using uv so first we installl the uv and then all the packages using uv
@@ -25,3 +26,7 @@
 # so if you want to use it please install pgadmin4 becasue this running locally create an database there then use it that's it
 
 # thanks for your time see you never
+=======
+# sign-up-and-log-in-api-using-fastapi-and-postgry-sql
+THIS IS simple app, i build using postgry and fast api which is sign in and sign up api
+>>>>>>> e6cc97b11c1059a3bc83f52c78988c5692106f45
