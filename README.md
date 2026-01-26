@@ -1,32 +1,42 @@
-<<<<<<< HEAD
-# sign up and log in api
+# Sign-Up and Log-In API using FastAPI & PostgreSQL
 
-# so we install package using uv so first we installl the uv and then all the packages using uv
+A simple, fast, and secure **Sign-Up and Log-In API** built using **FastAPI** and **PostgreSQL**, featuring async database operations, password hashing, and validation.
 
-# uv init.
+---
 
-# after that we setup main.py which is root of running uvicorn
+## Features
 
-# to run it you have to type
+- User Sign-Up
+- Email uniqueness check
+- Password hashing with **Argon2**
+- Async database operations with SQLAlchemy & asyncpg
+- Pydantic data validation (name, email, password)
+- Ready for JWT authentication extension
+- Modular folder structure for scalability
 
-# uv.run ./main.py
+---
 
-# after that install all the package listed below
+## Folder Structure
 
-# fastapi, pydantic,pydantic-settings,uvicorn,sqlalchemy,argon2 for password hasher,email-validtor,python-dotenv,asyncpg for database url to be asyncronus
+backend/
+├── app/
+│ ├── Router/ # API routes (sign-up, login)
+│ ├── Schema/ # Pydantic schemas
+│ ├── models/ # Database tables
+│ ├── core/ # Lifespan & utilities
+│ └── app.py # App entry point
+├── main.py # Uvicorn entry point
+├── .gitignore
+├── pyproject.toml
+├── README.md
+└── config.py # Configuration settings
 
-# after main.py app.py have to starting point then core folder contain all the lifespan so first database reloaded then
+---
 
-# schema folder have all the schema of user
+## Setup Instructions
 
-# models folder have user table
+### 1. Clone the repository
 
-# Router folder have different routes like sign up for know but i have to built log in to
-
-# so if you want to use it please install pgadmin4 becasue this running locally create an database there then use it that's it
-
-# thanks for your time see you never
-=======
-# sign-up-and-log-in-api-using-fastapi-and-postgry-sql
-THIS IS simple app, i build using postgry and fast api which is sign in and sign up api
->>>>>>> e6cc97b11c1059a3bc83f52c78988c5692106f45
+```bash
+git clone https://github.com/its-awais/sign-up-and-log-in-api-using-fastapi-and-postgry-sql.git
+cd sign-up-and-log-in-api-using-fastapi-and-postgry-sql/backend
