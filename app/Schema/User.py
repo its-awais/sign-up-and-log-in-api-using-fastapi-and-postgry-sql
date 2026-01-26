@@ -1,0 +1,42 @@
+from pydantic import BaseModel,Field,field_validator,EmailStr,ConfigDict
+from datetime import datetime
+from uuid import UUID
+import re
+PASSWORD_REGEX = re.compile(
+    r"^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,12}$"
+)
+class UserCreate(BaseModel):
+    name: str = Field(
+        min_length=3,
+        max_length=12,
+        examples="John01"
+    )
+    email:EmailStr= Field(
+        examples="john0101@gmail.com"
+    )
+    password: str = Field(
+        min_length=8,
+        max_length=12,
+        example="john@0101 incldue special charcter to"
+    )
+    @field_validator("name")
+    def validate_name(cls,value):
+        if not re.search(r"[A-Z]",value):
+            raise ValueError("password must contain atleast one uppercase letter")
+        return value
+    @field_validator("password")
+    def validate_password(cls,value):
+        if not PASSWORD_REGEX.match(value):
+            raise ValueError(
+                "Password must contain uppercase, number, and special character" 
+            )
+        return value
+
+
+class UserResponse(BaseModel):
+     id : UUID 
+     name : str
+     email : str
+     created_at : datetime
+     
+     model_config = ConfigDict(from_attributes=True)
