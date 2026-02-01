@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.User import User
 from sqlalchemy import select
 from app.Schema.User import UserCreate,UserResponse
-router = APIRouter(prefix="/auth/signUp", tags=["Auth/signUp"])
+router = APIRouter(prefix="/auth", tags=["Auth"])
 ph = PasswordHasher()
 @router.post("/signUp",response_model= UserResponse)
 async def signUp(
