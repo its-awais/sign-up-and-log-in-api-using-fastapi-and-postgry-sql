@@ -18,10 +18,15 @@ async def signUp(
     raise HTTPException(status_code=400,detail="email already exist")
   hashed_password = ph.hash(user_data.password)
   USER = User(name= user_data.name, email= user_data.email, password= hashed_password,gender=user_data.gender.value)
-  db.add(USER)
-  await db.commit()
-  await db.refresh(USER)
-  return UserResponse.model_validate(USER)   
+  try:
+    db.add(USER)
+    await db.commit()
+    await db.refresh(USER)
+    return UserResponse.model_validate(USER) 
+  except Exception as e:
+    await db.rollback() # so we add becasue if something change or in our db it roll back and tell use error 
+    raise HTTPException(status_code=500, detail="something went Wrong")
+       
  
    
 

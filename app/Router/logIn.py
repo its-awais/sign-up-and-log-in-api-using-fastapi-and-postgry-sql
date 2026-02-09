@@ -7,6 +7,7 @@ from app.core.security import create_access_token
 from sqlalchemy import select
 from app.database import get_async_session
 from argon2.exceptions import VerifyMismatchError
+from fastapi.responses import JSONResponse
 ph = PasswordHasher()
 # Define the router for logIn
 router = APIRouter(prefix="/auth",tags=["Auth"])
@@ -28,8 +29,8 @@ async def logIn(user_data: UserLogin, db: AsyncSession = Depends(get_async_sessi
         "user_id":str(existing_user.id),
         "email":existing_user.email
     })
-    return {
-        "access_token": access_token,
-         "token_type": "bearer"
-    }
+    response =  JSONResponse(content= {"message": "log in successfully"})
+    response.set_cookie(key="access_token", value= access_token, httponly=True)
+    return response
+    
           

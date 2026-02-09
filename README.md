@@ -1,27 +1,87 @@
-# sign up and log in api
+# Sign Up and Log In API
 
-# so we install package using uv so first we installl the uv and then all the packages using uv
+A FastAPI-based authentication API with PostgreSQL database integration.
 
-# uv init.
+## Prerequisites
 
-# after that we setup main.py which is root of running uvicorn
+- Python 3.9+
+- PostgreSQL
+- pgAdmin4 (optional, for database management)
 
-# to run it you have to type
+## Setup Instructions
 
-# uv.run ./main.py
+### 1. Initialize the Project with UV
 
-# after that install all the package listed below
+First, install UV if you haven't already:
 
-# fastapi, pydantic,pydantic-settings,uvicorn,sqlalchemy,argon2 for password hasher,email-validtor,python-dotenv,asyncpg for database url to be asyncronus
+```bash
+pip install uv
+```
 
-# after main.py app.py have to starting point then core folder contain all the lifespan so first database reloaded then
+Then initialize the project:
 
-# schema folder have all the schema of user
+```bash
+uv init
+```
 
-# models folder have user table
+### 2. Install Dependencies
 
-# Router folder have different routes like sign up for know but i have to built log in to
+Install all required packages using UV:
 
-# so if you want to use it please install pgadmin4 becasue this running locally create an database there then use it that's it
+```bash
+uv add fastapi pydantic pydantic-settings uvicorn sqlalchemy argon2-cffi email-validator python-dotenv asyncpg
+```
 
-# thanks for your time see you never
+### 3. Set Up the Database
+
+1. Install and run PostgreSQL
+2. Create a new database in pgAdmin4
+3. Update your environment variables with the database connection details
+
+### 4. Run the Application
+
+Start the development server:
+
+```bash
+uv run main.py
+```
+
+The API will be available at `http://localhost:8000`
+
+## Project Structure
+
+- **main.py** - Application entry point (runs uvicorn)
+- **app.py** - FastAPI application setup
+- **config.py** - Configuration settings
+- **core/** - Core functionality including database lifespan and security
+- **models/** - Database models (User table)
+- **Schema/** - Pydantic schemas for request/response validation
+- **Router/** - API route handlers (sign up, log in)
+- **database.py** - Database connection and session management
+
+## Dependencies
+
+- **FastAPI** - Web framework
+- **Pydantic** - Data validation
+- **Uvicorn** - ASGI web server
+- **SQLAlchemy** - ORM
+- **asyncpg** - Async PostgreSQL driver
+- **Argon2** - Password hashing
+- **Email-validator** - Email validation
+- **python-dotenv** - Environment variable management
+
+## Features
+
+- User registration (sign up)
+- User authentication (log in)
+- Secure password hashing with Argon2
+- Email validation
+
+
+## alembic migration
+- every time you change something in db like add columb or remove column then run this command always
+--alembic revision --autogenerate -m "add user table"
+
+## License
+
+MIT

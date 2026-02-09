@@ -59,15 +59,7 @@ class UserLogin(BaseModel):
         min_length=8,
         max_length=12,
         example="john@0101"
-    )
-    @field_validator("password")
-    def validate_password(cls,value):
-        if not PASSWORD_REGEX.fullmatch(value):
-            raise ValueError(
-                "Password must contain uppercase, number, and special character" 
-            )
-        return value
-    
+    )  
 class LoginResponse(BaseModel):
     access_token:str
     token_type:str
