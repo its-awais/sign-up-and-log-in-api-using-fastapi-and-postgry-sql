@@ -10,6 +10,8 @@ PASSWORD_REGEX = re.compile(
 class Gender(str,Enum):
     male = "male"
     female = "female"
+    
+       
 #for user creation like sign up
 class UserCreate(BaseModel):
     name: str = Field(
@@ -22,7 +24,7 @@ class UserCreate(BaseModel):
     )
     password: str = Field(
         min_length=8,
-        max_length=12,
+        max_length=16,
         example="john@0101 incldue special charcter to"
     )
     gender: Gender
@@ -31,6 +33,8 @@ class UserCreate(BaseModel):
     def validate_name(cls,value):
         if not re.search(r"[A-Z]",value):
             raise ValueError("name must contain atleast one uppercase letter")
+        elif re.search(r"^[0-9]",value):
+            raise ValueError("name cannot starting from number ")
         return value
     
     @field_validator("password")
@@ -47,6 +51,7 @@ class UserResponse(BaseModel):
      name : str
      email : str
      gender: str
+     role: str
     
      model_config = ConfigDict(from_attributes=True)
 
@@ -57,7 +62,7 @@ class UserLogin(BaseModel):
     )
     password: str = Field(
         min_length=8,
-        max_length=12,
+        max_length=16,
         example="john@0101"
     )  
 class LoginResponse(BaseModel):

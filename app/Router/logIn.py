@@ -1,4 +1,4 @@
-from fastapi import APIRouter,Depends,HTTPException
+from fastapi import APIRouter,Depends,HTTPException,Response
 from sqlalchemy.ext.asyncio import AsyncSession
 from argon2 import PasswordHasher
 from app.models.User import User
@@ -12,7 +12,7 @@ ph = PasswordHasher()
 # Define the router for logIn
 router = APIRouter(prefix="/auth",tags=["Auth"])
 @router.post("/logIn",response_model=LoginResponse)
-async def logIn(user_data: UserLogin, db: AsyncSession = Depends(get_async_session)):
+async def logIn(user_data: UserLogin,response: Response, db: AsyncSession = Depends(get_async_session)):
     result = await db.execute(select(User).where(User.email == user_data.email))
     existing_user = result.scalar_one_or_none()
     # we already get the user from the database and we just need to verify the password that user provided with the hashed password
@@ -27,10 +27,14 @@ async def logIn(user_data: UserLogin, db: AsyncSession = Depends(get_async_sessi
 
     access_token = create_access_token({
         "user_id":str(existing_user.id),
-        "email":existing_user.email
+        "email":existing_user.email,
+        "role": existing_user.role
+         
     })
-    response =  JSONResponse(content= {"message": "log in successfully"})
-    response.set_cookie(key="access_token", value= access_token, httponly=True)
-    return response
+    response.set_cookie(key="access_token", value= access_token, httponly=True,secure=True,samesite="lax")
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"   # matches your LoginResponse model
+    }
     
           
