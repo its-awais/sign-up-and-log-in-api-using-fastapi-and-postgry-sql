@@ -18,13 +18,17 @@ async def logIn(user_data: UserLogin,response: Response, db: AsyncSession = Depe
     # we already get the user from the database and we just need to verify the password that user provided with the hashed password
     if not existing_user:
         raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    # ensure the user has confirmed their email before allowing login
+    if not existing_user.is_verified:
+        raise HTTPException(status_code=403, detail="Email not verified. Please verify your email before logging in.")
+
     try:
         ph.verify(existing_user.password, user_data.password)
     except VerifyMismatchError:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
-   # this is step 5 to create a token after successful login
-
+    # this is step 5 to create a token after successful login
     access_token = create_access_token({
         "user_id":str(existing_user.id),
         "email":existing_user.email,

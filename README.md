@@ -76,11 +76,33 @@ The API will be available at `http://localhost:8000`
 - User authentication (log in)
 - Secure password hashing with Argon2
 - Email validation
+- Email verification (sign-up sends a verification link; user must verify before logging in)
 
+## Configuration / Environment Variables
+
+This project uses `pydantic-settings` and reads variables from a `.env` file.
+Make sure the following are set before running the app:
+
+- `DATABASE_URL` (PostgreSQL connection URL)
+- `SECRET_KEY` (JWT signing key)
+- `ALGORITHM` (JWT signing algorithm, e.g. `HS256`)
+- `ACCESS_TOKEN_EXPIRE_MINUTES` (token expiration time)
+- `BASE_URL` (public base URL for verification links, e.g. `http://localhost:8000`)
+- `MAIL_USERNAME` (SMTP username)
+- `MAIL_PASSWORD` (SMTP password or app password)
 
 ## alembic migration
-- every time you change something in db like add columb or remove column then run this command always
---alembic revision --autogenerate -m "add user table"
+
+- When you change the database schema (add/remove columns), run:
+  ```bash
+  alembic revision --autogenerate -m "add user table"
+  ```
+
+- Then apply changes:
+  ```bash
+  alembic upgrade head
+  ```
+
 
 ## License
 
